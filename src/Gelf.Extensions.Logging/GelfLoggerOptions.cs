@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using System.Net.Http;
+using System.Net.Security;
+using System.Security.Authentication;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Gelf.Extensions.Logging
 {
@@ -61,6 +65,26 @@ namespace Gelf.Extensions.Logging
         ///     Timeout used when sending logs via HTTP(S).
         /// </summary>
         public TimeSpan HttpTimeout { get; set; } = TimeSpan.FromSeconds(30);
+
+        /// <summary>
+        ///     Ssl protocols used when sending logs via HTTP(S).
+        /// </summary>
+        public SslProtocols? HttpSslProtocols { get; set; }
+
+        /// <summary>
+        ///     Client certificate used when sending logs via HTTP(S).
+        /// </summary>
+        public X509CertificateCollection? HttpCertificates { get; set; }
+
+        /// <summary>
+        ///     Enable checking of server certificate for revocation when sending logs via HTTP(S).
+        /// </summary>
+        public bool HttpCheckCertificateRevocation { get; set; }
+
+        /// <summary>
+        ///     Server certificate validation used when sending logs via HTTP(S).
+        /// </summary>
+        public Func<HttpRequestMessage, X509Certificate2, X509Chain, SslPolicyErrors, Boolean>? HttpServerCertificateValidator { get; set; }
 
         /// <summary>
         ///     Include a field with the original message template before structured log parameters are replaced.
